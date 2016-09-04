@@ -27,9 +27,9 @@ function switchFunction() {
             }
             movie();
              break;
-        // case "do-what-it-says":
-        //     itSays();
-        //     break;
+        case "do-what-it-says":
+            itSays();
+            break;
         default:
             console.log('invalid entry');
     }
@@ -108,5 +108,19 @@ function movie() {
         });
 }
 
+
+function itSays() {
+    fs.readFile("random.txt", "utf8", function(error, data){
+        if(error){
+            console.log(error);
+        } else {
+            var dataArray = data.split(",");
+            argument2 = dataArray[0];
+            argument3 = dataArray[1];
+        }
+        switchFunction();
+
+    }); //fs ends here
+}
 //call switch function
 switchFunction();
