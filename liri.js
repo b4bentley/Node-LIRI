@@ -14,11 +14,19 @@ function switchFunction() {
             twitter();
             break;
         case "spotify-this-song":
+
+            if (argument3 == undefined){
+                argument3 = "The Sign";
+            }
             spotify();
             break;
-        // case "movie-this":
-        //     movie();
-        //     break;
+        case "movie-this":
+
+            if(argument3 == undefined){
+                argument3 = 'Mr. Nobody.';
+            }
+            movie();
+             break;
         // case "do-what-it-says":
         //     itSays();
         //     break;
@@ -63,11 +71,10 @@ function spotify() {
         clientSecret: keys.spotifyKeys.client_secret
     });
 
-    console.log(spotifyApi);
 
     spotifyApi.searchTracks(argument3, {limit: 1}).then(function (data) {
             var tracks = data.body.tracks.items;
-            console.log("-------START-------");
+            
             for (var i in tracks) {
                 console.log("-------------");
                 console.log("Artist: " + tracks[i].artists[0].name);
@@ -79,6 +86,27 @@ function spotify() {
     });
 }
 
+
+function movie() {
+
+        var query_url = "http://www.omdbapi.com/?t=" + argument3 + "&y=&plot=long&tomatoes=true&r=json";
+
+        request(query_url, function (error, data, body) {
+            if (error) {
+                console.log(error)
+            }
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("Release Date: " + JSON.parse(body).Released);
+            console.log("Country: " + JSON.parse(body).Country);
+            console.log("Language(s): " + JSON.parse(body).Language);
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+            console.log("Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL);
+            console.log("--end result--" + "\n");
+
+        });
+}
 
 //call switch function
 switchFunction();
